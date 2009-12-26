@@ -39,8 +39,8 @@ class GpickerWindowHelper:
     if fbroot != "" and fbroot is not None:
       path = fbroot
     path = path.replace("file://", "")
-    cmd = ["gpicker", path]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE);
+    cmd = ["gpicker", "-t", "guess", path]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     line = p.stdout.readline()
     if line != "" and line is not None:
       uri = "file://" + os.path.expanduser(path + "/" + line)
