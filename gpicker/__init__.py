@@ -21,6 +21,7 @@ class GpickerWindowHelper:
   def __init__(self, plugin, window):
     self._window = window
     self._plugin = plugin
+    self._rootdir = os.getcwd()
     self._insert_menu()
 
   def deactivate(self):
@@ -34,7 +35,7 @@ class GpickerWindowHelper:
 
   def on_gpicker_open(self, action):
     fbroot = self._get_filebrowser_root()
-    path = os.getcwd()
+    path = self._rootdir
     if fbroot != "" and fbroot is not None:
       path = fbroot.replace("file://", "")
     cmd = ["gpicker", "-t", "guess", path]
