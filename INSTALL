@@ -1,0 +1,12 @@
+Installation Instructions
+*************************
+
+Copyright (C) 2009 Yura Tolstik <yltsrc@gmail.com>.
+
+Basic Installation
+==================
+
+These are generic installation instructions.
+
+cp * ~/.gnome2/gedit/plugins/
+
