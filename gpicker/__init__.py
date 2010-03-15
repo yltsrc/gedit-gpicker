@@ -41,6 +41,7 @@ class GpickerWindowHelper:
     if os.path.exists(path):
       cmd = ["gpicker", "-t", "guess", path]
       p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+      p.wait()
       line = p.stdout.readline()
       if line != "" and line is not None:
         uri = "file://" + os.path.expanduser(path + "/" + line)
