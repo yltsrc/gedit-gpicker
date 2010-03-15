@@ -38,13 +38,14 @@ class GpickerWindowHelper:
     path = self._rootdir
     if fbroot != "" and fbroot is not None:
       path = fbroot.replace("file://", "")
-    cmd = ["gpicker", "-t", "guess", path]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    line = p.stdout.readline()
-    if line != "" and line is not None:
-      uri = "file://" + os.path.expanduser(path + "/" + line)
-      if gedit.utils.uri_is_valid(uri) & gedit.utils.uri_exists(uri):
-        self._window.create_tab_from_uri(uri, None, 1, False, True)
+    if os.path.exists(path):
+      cmd = ["gpicker", "-t", "guess", path]
+      p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+      line = p.stdout.readline()
+      if line != "" and line is not None:
+        uri = "file://" + os.path.expanduser(path + "/" + line)
+        if gedit.utils.uri_is_valid(uri) & gedit.utils.uri_exists(uri):
+          self._window.create_tab_from_uri(uri, None, 1, False, True)
 
   def _insert_menu(self):
     manager = self._window.get_ui_manager()
