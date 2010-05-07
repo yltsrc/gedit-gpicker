@@ -44,9 +44,18 @@ class GpickerWindowHelper:
       p.wait()
       line = p.stdout.readline()
       if line != "" and line is not None:
+        docs = self._window.get_documents()
+        uris = []
+        for d in docs:
+          uris.append(d.get_uri())
         uri = "file://" + os.path.expanduser(path + "/" + line)
         if gedit.utils.uri_is_valid(uri) & gedit.utils.uri_exists(uri):
-          self._window.create_tab_from_uri(uri, None, 1, False, True)
+          if uri in uris:
+            self._window.set_active_tab(gedit.tab_get_from_document(docs[uris.index(uri)]))
+          else:
+            self._window.create_tab_from_uri(uri, None, 1, False, True)
+        del docs
+        del uris
 
   def _insert_menu(self):
     manager = self._window.get_ui_manager()
