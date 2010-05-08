@@ -47,7 +47,7 @@ class GpickerWindowHelper:
         uri = "file://" + os.path.expanduser(path + "/" + line)
         if gedit.utils.uri_is_valid(uri) & gedit.utils.uri_exists(uri):
           tab = self._window.get_tab_from_uri(uri)
-          if uri == None:
+          if tab == None:
             self._window.create_tab_from_uri(uri, None, 1, False, True)
           else:
             self._window.set_active_tab(tab)
