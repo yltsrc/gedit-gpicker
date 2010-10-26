@@ -43,20 +43,15 @@ class GpickerWindowHelper:
       p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
       line = p.stdout.readline()
       if line != "" and line is not None:
-        docs = self._window.get_documents()
-        uris = []
-        for d in docs:
-          uris.append(d.get_uri())
         uri = "file://" + os.path.expanduser(path + "/" + line)
-        if gedit.utils.uri_is_valid(uri):
+	if gedit.utils.uri_is_valid(uri):
           if not gedit.utils.uri_exists(uri):
             open(os.path.expanduser(path + "/" + line), 'w')
-          if uri in uris:
-            self._window.set_active_tab(gedit.tab_get_from_document(docs[uris.index(uri)]))
+	  tab = self._window.get_tab_from_uri(uri)
+          if tab == None:
+	    self._window.create_tab_from_uri(uri, None, 1, False, True)
           else:
-            self._window.create_tab_from_uri(uri, None, 1, False, True)
-        del docs
-        del uris
+            self._window.set_active_tab(tab)
 
   def _insert_menu(self):
     manager = self._window.get_ui_manager()
