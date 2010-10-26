@@ -39,9 +39,8 @@ class GpickerWindowHelper:
     if fbroot != "" and fbroot is not None:
       path = fbroot.replace("file://", "")
     if os.path.exists(path):
-      cmd = ["gpicker", "-t", "guess", path]
+      cmd = ["gpicker", "-p", "-t", "guess", path]
       p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-      p.wait()
       line = p.stdout.readline()
       if line != "" and line is not None:
         docs = self._window.get_documents()
@@ -49,7 +48,9 @@ class GpickerWindowHelper:
         for d in docs:
           uris.append(d.get_uri())
         uri = "file://" + os.path.expanduser(path + "/" + line)
-        if gedit.utils.uri_is_valid(uri) & gedit.utils.uri_exists(uri):
+        if gedit.utils.uri_is_valid(uri):
+          if not gedit.utils.uri_exists(uri):
+            open(os.path.expanduser(path + "/" + line), 'w')
           if uri in uris:
             self._window.set_active_tab(gedit.tab_get_from_document(docs[uris.index(uri)]))
           else:
